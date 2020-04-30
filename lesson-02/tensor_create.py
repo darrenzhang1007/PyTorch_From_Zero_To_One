@@ -185,3 +185,4 @@ if flag:
     b = torch.from_numpy(np.array([[0.2, 0.5, 0.7], [0.2, 0.5, 0.7], [0.2, 0.5, 0.7]]))
     print(t)
     print(b)
+    kk
