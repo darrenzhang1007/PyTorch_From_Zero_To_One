@@ -182,4 +182,6 @@ flag = True
 if flag:
     a = torch.empty(3, 3).uniform_(0, 1)  # generate a uniform random matrix with range [0, 1]
     t = torch.bernoulli(a)
+    b = torch.from_numpy(np.array([[0.2, 0.5, 0.7], [0.2, 0.5, 0.7], [0.2, 0.5, 0.7]]))
     print(t)
+    print(b)
