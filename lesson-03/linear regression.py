@@ -18,8 +18,8 @@ print(x.data)
 y = 2*x + (5 + torch.randn(20, 1))  # y = wx + b + noise
 
 # build linear regression model
-w = torch.randn((1), requires_grad=True)
-b = torch.zeros((1), requires_grad=True)
+w = torch.randn(1, requires_grad=True)
+b = torch.zeros(1, requires_grad=True)
 
 # beginning to iterate
 for iteration in range(10000):
@@ -34,7 +34,7 @@ for iteration in range(10000):
     loss.backward()
 
     # update parameters
-    b.data.sub_(lr * b.grad)
+    b.data.sub_(lr * b.grad)  # b_update = b - lr * b.grad
     w.data.sub_(lr * w.grad)
 
     # clean grad to zero
