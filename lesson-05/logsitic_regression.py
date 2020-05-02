@@ -39,7 +39,6 @@ class LR(nn.Module):
 
 lr_net = LR()   # 实例化逻辑回归模型
 
-
 # ============================ step 3/5 选择损失函数 ============================
 loss_fn = nn.BCELoss()
 
@@ -50,16 +49,16 @@ optimizer = torch.optim.SGD(lr_net.parameters(), lr=lr, momentum=0.9)
 # ============================ step 5/5 模型训练 ============================
 for iteration in range(1000):
 
-    # 前向传播
+    # 前向传播，将训练数据输入模型，得到模型的输出
     y_pred = lr_net(train_x)
 
-    # 计算 loss
+    # 计算 loss，有了模型的输出就可以计算loss
     loss = loss_fn(y_pred.squeeze(), train_y)
 
-    # 反向传播
+    # 反向传播，有了loss，进行反向传播梯度求导
     loss.backward()
 
-    # 更新参数
+    # 更新参数，有了梯度就可以更新权值等一系列参数
     optimizer.step()
 
     # 清空梯度
@@ -67,7 +66,6 @@ for iteration in range(1000):
 
     # 绘图
     if iteration % 20 == 0:
-
         mask = y_pred.ge(0.5).float().squeeze()  # 以0.5为阈值进行分类
         correct = (mask == train_y).sum()  # 计算正确预测的样本个数
         acc = correct.item() / train_y.size(0)  # 计算分类准确率
