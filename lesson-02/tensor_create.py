@@ -149,18 +149,22 @@ if flag:
 # flag = True
 flag = False
 if flag:
-    # t = torch.randn(3)
+    t = torch.randn(3)
+    print(t)
     t = torch.tensor([[1, 2, 3], [4, 5, 6], [7, 8, 9]], dtype=torch.float32)
     out_t = torch.randn_like(t)
     print(out_t)
+    t = torch.rand(3)
+    print(t)
 
 
 # ============== example 13 ============== #
 # create tensor by `torch.randint()`
-# flag = True
-flag = False
+flag = True
+# flag = False
 if flag:
-    # t = torch.randint(3, 10, (5,5))
+    t = torch.randint(3, 10, (5, 5))
+    print(t)
     t = torch.tensor([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
     out_t = torch.randint_like(input=t, low=3, high=10)
     print(out_t)
@@ -177,8 +181,8 @@ if flag:
 
 # ============== example 15 ============== #
 # create tensor by `torch.bernoulli()`
-flag = True
-# flag = False
+# flag = True
+flag = False
 if flag:
     a = torch.empty(3, 3).uniform_(0, 1)  # generate a uniform random matrix with range [0, 1]
     t = torch.bernoulli(a)

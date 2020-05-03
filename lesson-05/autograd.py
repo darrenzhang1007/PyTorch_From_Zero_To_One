@@ -104,7 +104,7 @@ if flag:
     a = a + torch.ones((1, ))
     print(id(a), a)
 
-    a += torch.ones((1, ))
+    a += torch.ones((1, ))  # `+=` is `in-place` operation
     print(id(a), a)
 
 

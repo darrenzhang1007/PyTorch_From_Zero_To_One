@@ -61,21 +61,21 @@ if flag:
     # list_of_tensors_01 = torch.split(t, 2, dim=1)  # [2 , 1, 2]
     # for idx, t in enumerate(list_of_tensors_01):
     #     print("第{}个张量：{}, shape is {}".format(idx + 1, t, t.shape))
-    #
-    # list_of_tensors_02 = torch.split(t, [2, 1, 2], dim=1)  # [2 , 1, 2]
-    # for idx, t in enumerate(list_of_tensors_02):
-    #     print("第{}个张量：{}, shape is {}".format(idx+1, t, t.shape))
-    #
-    list_of_tensors_03 = torch.split(t, [2, 1, 1], dim=1)
-    for idx, t in enumerate(list_of_tensors_03):
-        print("第{}个张量：{}, shape is {}".format(idx, t, t.shape))
+
+    list_of_tensors_02 = torch.split(t, [2, 1, 2], dim=1)  # [2 , 1, 2]
+    for idx, t in enumerate(list_of_tensors_02):
+        print("第{}个张量：{}, shape is {}".format(idx+1, t, t.shape))
+
+    # list_of_tensors_03 = torch.split(t, [2, 1, 1], dim=1)
+    # for idx, t in enumerate(list_of_tensors_03):
+    #     print("第{}个张量：{}, shape is {}".format(idx, t, t.shape))
 
 
 # ======================================= example 5 =======================================
 # torch.index_select
 
-# flag = True
-flag = False
+flag = True
+# flag = False
 
 if flag:
     t = torch.randint(0, 9, size=(3, 3))
@@ -87,8 +87,8 @@ if flag:
 # ======================================= example 6 =======================================
 # torch.masked_select
 
-# flag = True
-flag = False
+flag = True
+# flag = False
 
 if flag:
     t = torch.randint(0, 9, size=(3, 3))
