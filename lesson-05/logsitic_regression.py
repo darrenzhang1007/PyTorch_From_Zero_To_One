@@ -14,7 +14,7 @@ torch.manual_seed(10)
 # ============================ step 1/5 生成数据 ============================
 sample_nums = 100
 mean_value = 1.7
-bias = 1
+bias = 5  # 1
 n_data = torch.ones(sample_nums, 2)
 x0 = torch.normal(mean_value * n_data, 1) + bias      # 类别0 数据 shape=(100, 2)
 y0 = torch.zeros(sample_nums)                         # 类别0 标签 shape=(100, 1)
