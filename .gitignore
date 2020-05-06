@@ -72,3 +72,14 @@ fabric.properties
 
 .gitignore
 /lesson-06/data/
+.idea/deployment.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/other.xml
+.idea/PyTorch_From_Zero_To_One.iml
+.idea/vcs.xml
+.idea/inspectionProfiles/profiles_settings.xml
+lesson-06/model/__pycache__/__init__.cpython-36.pyc
+lesson-06/model/__pycache__/lenet.cpython-36.pyc
+lesson-06/utils/__pycache__/__init__.cpython-36.pyc
+lesson-06/utils/__pycache__/my_dataset.cpython-36.pyc
