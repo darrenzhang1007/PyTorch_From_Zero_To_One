@@ -13,17 +13,10 @@ from matplotlib import pyplot as plt
 from torch.utils.data import DataLoader
 import torchvision.transforms as transforms
 from tools.my_dataset import RMBDataset
-from tools.common_tools import transform_invert
+from tools.common_tools import transform_invert, set_seed
 
 
-def set_seed(seed=1):
-    random.seed(seed)
-    np.random.seed(seed)
-    torch.manual_seed(seed)
-    torch.cuda.manual_seed(seed)
-
-
-set_seed(1)  # 设置随机种子
+set_seed(seed=1)  # 设置随机种子
 
 # 参数设置
 MAX_EPOCH = 10
@@ -35,9 +28,9 @@ rmb_label = {"1": 0, "100": 1}
 
 
 # ============================ step 1/5 数据 ============================
-split_dir = os.path.join("..", "lesson-06", "data", "rmb_split")
-train_dir = os.path.join(split_dir, "train")
-valid_dir = os.path.join(split_dir, "valid")
+train_dir = "H:/PyTorch_From_Zero_To_One/data/rmb_split/train"
+valid_dir = "H:/PyTorch_From_Zero_To_One/data/rmb_split/valid"
+print(train_dir)
 
 norm_mean = [0.485, 0.456, 0.406]
 norm_std = [0.229, 0.224, 0.225]
@@ -59,19 +52,20 @@ train_transform = transforms.Compose([
     # transforms.ColorJitter(hue=0.3),
 
     # 3 Grayscale
-    # transforms.Grayscale(num_output_channels=3),
+    # transforms.Grayscale(num_output_channels=3),  # 概率值为1的GrayScale
+    transforms.RandomGrayscale(num_output_channels=3, p=0.1),
 
     # 4 Affine
     # transforms.RandomAffine(degrees=30),
-    # transforms.RandomAffine(degrees=0, translate=(0.2, 0.2), fillcolor=(255, 0, 0)),
+    # transforms.RandomAffine(degrees=0, translate=(0.2, 0.2), fillcolor=(255, 0, 0)),  # 平移
     # transforms.RandomAffine(degrees=0, scale=(0.7, 0.7)),
     # transforms.RandomAffine(degrees=0, shear=(0, 0, 0, 45)),
     # transforms.RandomAffine(degrees=0, shear=90, fillcolor=(255, 0, 0)),
 
-    # 5 Erasing
+    # 5 Erasing 随机遮挡。接受的是tensor，需要先转化成tensor后面转化为tensor的代码要注释掉
     # transforms.ToTensor(),
     # transforms.RandomErasing(p=1, scale=(0.02, 0.33), ratio=(0.3, 3.3), value=(254/255, 0, 0)),
-    # transforms.RandomErasing(p=1, scale=(0.02, 0.33), ratio=(0.3, 3.3), value='1234'),
+    # transforms.RandomErasing(p=1, scale=(0.02, 0.33), ratio=(0.3, 3.3), value='1234'),  # 随机填充色彩
 
     # 1 RandomChoice
     # transforms.RandomChoice([transforms.RandomVerticalFlip(p=1), transforms.RandomHorizontalFlip(p=1)]),

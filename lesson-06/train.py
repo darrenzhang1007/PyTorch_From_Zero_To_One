@@ -1,31 +1,26 @@
 # -*- coding: utf-8 -*-
-"""
-# @file name  : train_lenet.py
-# @author     : tingsongyu
-# @date       : 2019-09-07 10:08:00
-# @brief      : 人民币分类模型训练
-"""
+# @Time    : 2020/5/9 16:27
+# @Author  : DarrenZhang
+# @FileName: train.py
+# @Software: PyCharm
+# @Blog    ：https://www.yuque.com/darrenzhang
+# @Brief   : 人民币分类模型训练
 import os
-import random
 import numpy as np
 import torch
 import torch.nn as nn
-from torch.utils.data import DataLoader
 import torchvision.transforms as transforms
 import torch.optim as optim
+import sys
+
+sys.path.append("../")
+from torch.utils.data import DataLoader
 from matplotlib import pyplot as plt
 from model.lenet import LeNet
-from utils.my_dataset import RMBDataset
+from tools.my_dataset import RMBDataset
+from tools.common_tools import set_seed
 
-
-def set_seed(seed=1):
-    random.seed(seed)
-    np.random.seed(seed)
-    torch.manual_seed(seed)
-    torch.cuda.manual_seed(seed)
-
-
-set_seed()  # 设置随机种子
+set_seed(seed=1)  # 设置随机种子
 rmb_label = {"1": 0, "100": 1}
 
 # 参数设置
@@ -37,9 +32,12 @@ val_interval = 1
 
 # ============================ step 1/5 数据 ============================
 
-split_dir = os.path.join("data", "rmb_split")
-train_dir = os.path.join(split_dir, "train")
-valid_dir = os.path.join(split_dir, "valid")
+# split_dir = os.path.join("data", "rmb_split")
+# train_dir = os.path.join(split_dir, "train")
+# valid_dir = os.path.join(split_dir, "valid")
+train_dir = "H:/PyTorch_From_Zero_To_One/data/rmb_split/train"
+valid_dir = "H:/PyTorch_From_Zero_To_One/data/rmb_split/valid"
+print(train_dir)
 
 norm_mean = [0.485, 0.456, 0.406]
 norm_std = [0.229, 0.224, 0.225]
@@ -71,11 +69,11 @@ net = LeNet(classes=2)
 net.initialize_weights()
 
 # ============================ step 3/5 损失函数 ============================
-criterion = nn.CrossEntropyLoss()                                                   # 选择损失函数
+criterion = nn.CrossEntropyLoss()  # 选择损失函数
 
 # ============================ step 4/5 优化器 ============================
-optimizer = optim.SGD(net.parameters(), lr=LR, momentum=0.9)                        # 选择优化器
-scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.1)     # 设置学习率下降策略
+optimizer = optim.SGD(net.parameters(), lr=LR, momentum=0.9)  # 选择优化器
+scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.1)  # 设置学习率下降策略
 
 # ============================ step 5/5 训练 ============================
 train_curve = list()
@@ -110,16 +108,16 @@ for epoch in range(MAX_EPOCH):
         # 打印训练信息
         loss_mean += loss.item()
         train_curve.append(loss.item())
-        if (i+1) % log_interval == 0:
+        if (i + 1) % log_interval == 0:
             loss_mean = loss_mean / log_interval
             print("Training:Epoch[{:0>3}/{:0>3}] Iteration[{:0>3}/{:0>3}] Loss: {:.4f} Acc:{:.2%}".format(
-                epoch, MAX_EPOCH, i+1, len(train_loader), loss_mean, correct / total))
+                epoch, MAX_EPOCH, i + 1, len(train_loader), loss_mean, correct / total))
             loss_mean = 0.
 
     scheduler.step()  # 更新学习率
 
     # validate the model
-    if (epoch+1) % val_interval == 0:
+    if (epoch + 1) % val_interval == 0:
 
         correct_val = 0.
         total_val = 0.
@@ -137,16 +135,15 @@ for epoch in range(MAX_EPOCH):
 
                 loss_val += loss.item()
 
-            valid_curve.append(loss_val/valid_loader.__len__())
+            valid_curve.append(loss_val / valid_loader.__len__())
             print("Valid:\t Epoch[{:0>3}/{:0>3}] Iteration[{:0>3}/{:0>3}] Loss: {:.4f} Acc:{:.2%}".format(
-                epoch, MAX_EPOCH, j+1, len(valid_loader), loss_val, correct_val / total_val))
-
+                epoch, MAX_EPOCH, j + 1, len(valid_loader), loss_val, correct_val / total_val))
 
 train_x = range(len(train_curve))
 train_y = train_curve
 
 train_iters = len(train_loader)
-valid_x = np.arange(1, len(valid_curve)+1) * train_iters*val_interval # 由于valid中记录的是epochloss，需要对记录点进行转换到iterations
+valid_x = np.arange(1, len(valid_curve) + 1) * train_iters * val_interval  # 由于valid中记录的是epochloss，需要对记录点进行转换到iterations
 valid_y = valid_curve
 
 plt.plot(train_x, train_y, label='Train')
@@ -155,8 +152,8 @@ plt.plot(valid_x, valid_y, label='Valid')
 plt.legend(loc='upper right')
 plt.ylabel('loss value')
 plt.xlabel('Iteration')
+plt.savefig("result.png")
 plt.show()
-
 # ============================ inference ============================
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -173,9 +170,3 @@ for i, data in enumerate(valid_loader):
 
     rmb = 1 if predicted.numpy()[0] == 0 else 100
     print("模型获得{}元".format(rmb))
-
-
-
-
-
-

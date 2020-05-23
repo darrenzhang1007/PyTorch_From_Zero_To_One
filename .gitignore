@@ -83,3 +83,4 @@ lesson-06/model/__pycache__/__init__.cpython-36.pyc
 lesson-06/model/__pycache__/lenet.cpython-36.pyc
 lesson-06/utils/__pycache__/__init__.cpython-36.pyc
 lesson-06/utils/__pycache__/my_dataset.cpython-36.pyc
+.data

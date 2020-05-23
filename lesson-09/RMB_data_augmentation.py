@@ -16,17 +16,9 @@ import torch.optim as optim
 from matplotlib import pyplot as plt
 from model.lenet import LeNet
 from tools.my_dataset import RMBDataset
-from tools.common_tools import transform_invert
+from tools.common_tools import transform_invert,set_seed
 
-
-def set_seed(seed=1):
-    random.seed(seed)
-    np.random.seed(seed)
-    torch.manual_seed(seed)
-    torch.cuda.manual_seed(seed)
-
-
-set_seed()  # 设置随机种子
+set_seed(seed=1)  # 设置随机种子
 rmb_label = {"1": 0, "100": 1}
 
 # 参数设置
@@ -37,10 +29,9 @@ log_interval = 10
 val_interval = 1
 
 # ============================ step 1/5 数据 ============================
-
-split_dir = os.path.join("..", "..", "data", "rmb_split")
-train_dir = os.path.join(split_dir, "train")
-valid_dir = os.path.join(split_dir, "valid")
+train_dir = "H:/PyTorch_From_Zero_To_One/data/rmb_split/train"
+valid_dir = "H:/PyTorch_From_Zero_To_One/data/rmb_split/valid"
+print(train_dir)
 
 norm_mean = [0.485, 0.456, 0.406]
 norm_std = [0.229, 0.224, 0.225]
