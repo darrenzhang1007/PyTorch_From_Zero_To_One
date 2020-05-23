@@ -83,4 +83,17 @@ lesson-06/model/__pycache__/__init__.cpython-36.pyc
 lesson-06/model/__pycache__/lenet.cpython-36.pyc
 lesson-06/utils/__pycache__/__init__.cpython-36.pyc
 lesson-06/utils/__pycache__/my_dataset.cpython-36.pyc
-.data
+data/*
+data/img_align_celeba_2k/*
+### Example user template template
+### Example user template
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+model/__pycache__/
+tools/__pycache__/
+data
+!/data/img_align_celeba_2k/
