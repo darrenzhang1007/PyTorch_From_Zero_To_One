@@ -1,9 +1,11 @@
-# -*- coding:utf-8 -*-
 """
-@file name  : loss_acc_weights_grad.py
-# @author     : TingsongYu https://github.com/TingsongYu
-@date       : 2019-10-24
-@brief      : 监控loss, accuracy, weights, gradients
+# -*- coding:utf-8 -*-
+# @Time    : 2020/5/11 11:15
+# @Author  : DarrenZhang
+# @FileName: 01_TensorBoard.py
+# @Software: PyCharm
+# @Blog    ：https://www.yuque.com/darrenzhang
+# @Brief   : 监控loss, accuracy, weights, gradients
 """
 import os
 import numpy as np
@@ -28,11 +30,10 @@ LR = 0.01
 log_interval = 10
 val_interval = 1
 
-# ============================ step 1/5 数据 ============================
 
-split_dir = os.path.join("..", "..", "data", "rmb_split")
-train_dir = os.path.join(split_dir, "train")
-valid_dir = os.path.join(split_dir, "valid")
+# ============================ step 1/5 数据 ============================
+train_dir = "H:/PyTorch_From_Zero_To_One/data/rmb_split/train"
+valid_dir = "H:/PyTorch_From_Zero_To_One/data/rmb_split/valid"
 
 norm_mean = [0.485, 0.456, 0.406]
 norm_std = [0.229, 0.224, 0.225]
