@@ -5,13 +5,12 @@ import matplotlib.pyplot as plt
 torch.manual_seed(1)
 
 LR = 0.1
-LR = 0.1
 iteration = 10
 max_epoch = 200
 # ------------------------------ fake data and optimizer  ------------------------------
 
-weights = torch.randn((1), requires_grad=True)
-target = torch.zeros((1))
+weights = torch.randn(1, requires_grad=True)
+target = torch.zeros(1)
 
 optimizer = optim.SGD([weights], lr=LR, momentum=0.9)
 
@@ -138,8 +137,8 @@ if flag:
 
 
 # ------------------------------ 5 Reduce LR On Plateau ------------------------------
-flag = 0
-# flag = 1
+# flag = 0
+flag = 1
 if flag:
     loss_value = 0.5
     accuray = 0.9
@@ -169,8 +168,8 @@ if flag:
 
 
 # ------------------------------ 6 lambda ------------------------------
-# flag = 0
-flag = 1
+flag = 0
+# flag = 1
 if flag:
 
     lr_init = 0.1

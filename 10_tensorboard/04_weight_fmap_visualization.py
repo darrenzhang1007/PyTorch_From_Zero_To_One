@@ -2,7 +2,7 @@
 """
 # @Time    : 2020/5/12 9:44
 # @Author  : DarrenZhang
-# @FileName: weight_fmap_visualization.py
+# @FileName: 04_weight_fmap_visualization.py
 # @Software: PyCharm
 # @Blog    ：https://www.yuque.com/darrenzhang
 # @Brief   : 卷积核和特征图的可视化
@@ -56,7 +56,7 @@ if flag:
     writer = SummaryWriter(comment='test_your_comment', filename_suffix="_test_your_filename_suffix")
 
     # 数据
-    path_img = "./lena.png"  # your path to image
+    path_img = "../data/lena.png"  # your path to image
     normMean = [0.49139968, 0.48215827, 0.44653124]
     normStd = [0.24703233, 0.24348505, 0.26158768]
 

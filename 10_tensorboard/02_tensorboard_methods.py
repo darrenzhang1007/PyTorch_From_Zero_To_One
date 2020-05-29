@@ -2,7 +2,7 @@
 """
 # @Time    : 2020/5/11 11:42
 # @Author  : DarrenZhang
-# @FileName: tensorboard_methods.py
+# @FileName: 02_tensorboard_methods.py
 # @Software: PyCharm
 # @Blog    ：https://www.yuque.com/darrenzhang
 # @Brief   : tensorboard方法使用
@@ -23,12 +23,12 @@ from model.lenet import LeNet
 set_seed(1)  # 设置随机种子
 
 # ----------------------------------- 0 SummaryWriter -----------------------------------
-# flag = 0
-flag = 1
+flag = 0
+# flag = 1
 if flag:
     log_dir = "./train_log/test_log_dir"
-    # writer = SummaryWriter(log_dir=log_dir, comment='_scalars', filename_suffix="12345678")
-    writer = SummaryWriter(comment='_scalars', filename_suffix="12345678")
+    writer = SummaryWriter(log_dir=log_dir, comment='_scalars', filename_suffix="12345678")
+    # writer = SummaryWriter(comment='_scalars', filename_suffix="12345678")
 
     for x in range(100):
         writer.add_scalar('y=pow_2_x', 2 ** x, x)
@@ -56,8 +56,8 @@ if flag:
     writer.close()
 
 # ----------------------------------- 2 histogram -----------------------------------
-# flag = 0
-flag = 1
+flag = 0
+# flag = 1
 if flag:
 
     writer = SummaryWriter(comment='test_comment', filename_suffix="test_suffix")
@@ -93,7 +93,7 @@ if flag:
     time.sleep(1)
 
     # img 2     ones
-    fake_img = torch.ones(3, 512, 512)
+    fake_img = torch.ones(3, 512, 512)  # 255
     time.sleep(1)
     writer.add_image("fake_img", fake_img, 2)
 
@@ -134,9 +134,9 @@ if flag:
 
 
 # ----------------------------------- 5 add_graph -----------------------------------
-
-# flag = 0
-flag = 1
+## 1.2版本对于此方法有Bug
+flag = 0
+# flag = 1
 if flag:
 
     writer = SummaryWriter(comment='test_your_comment', filename_suffix="_test_your_filename_suffix")

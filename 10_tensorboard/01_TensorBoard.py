@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2020/5/11 11:15
 # @Author  : DarrenZhang
-# @FileName: TensorBoard.py
+# @FileName: 01_TensorBoard.py
 # @Software: PyCharm
 # @Blog    ：https://www.yuque.com/darrenzhang
 # @Brief   : 测试tensorboard
@@ -19,4 +19,3 @@ for x in range(100):
                                              "xcosx": x * np.cos(x),
                                              "arctanx": np.arctan(x)}, x)
 writer.close()
-

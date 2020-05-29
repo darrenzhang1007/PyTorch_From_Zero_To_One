@@ -98,3 +98,4 @@ tools/__pycache__/
 data
 !/data/img_align_celeba_2k/
 .vscode/settings.json
+10_tensorboard/runs/May29_16-12-17_DESKTOP-BI62EEKtest_your_comment/events.out.tfevents.1590739937.DESKTOP-BI62EEK.7388.0_test_your_filename_suffix
