@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 torch.manual_seed(1)
 
 LR = 0.1
+LR = 0.1
 iteration = 10
 max_epoch = 200
 # ------------------------------ fake data and optimizer  ------------------------------

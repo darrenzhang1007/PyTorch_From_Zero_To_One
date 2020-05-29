@@ -97,3 +97,4 @@ model/__pycache__/
 tools/__pycache__/
 data
 !/data/img_align_celeba_2k/
+.vscode/settings.json
