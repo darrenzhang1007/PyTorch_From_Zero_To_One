@@ -71,7 +71,7 @@ fabric.properties
 .idea/caches/build_file_checksums.ser
 
 .gitignore
-/lesson-06/data/
+/RMB_Classify/data/
 .idea/deployment.xml
 .idea/misc.xml
 .idea/modules.xml
@@ -79,10 +79,10 @@ fabric.properties
 .idea/PyTorch_From_Zero_To_One.iml
 .idea/vcs.xml
 .idea/inspectionProfiles/profiles_settings.xml
-lesson-06/model/__pycache__/__init__.cpython-36.pyc
-lesson-06/model/__pycache__/lenet.cpython-36.pyc
-lesson-06/utils/__pycache__/__init__.cpython-36.pyc
-lesson-06/utils/__pycache__/my_dataset.cpython-36.pyc
+RMB_Classify/model/__pycache__/__init__.cpython-36.pyc
+RMB_Classify/model/__pycache__/lenet.cpython-36.pyc
+RMB_Classify/utils/__pycache__/__init__.cpython-36.pyc
+RMB_Classify/utils/__pycache__/my_dataset.cpython-36.pyc
 data/*
 data/img_align_celeba_2k/*
 ### Example user template template

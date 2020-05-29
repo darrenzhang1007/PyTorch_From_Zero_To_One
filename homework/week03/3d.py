@@ -9,7 +9,7 @@ set_seed(2)
 path_img = "lena.png"
 img = Image.open(path_img).convert('RGB')  # 0~255
 
-# convert to tensor
+# convert to 02_tensor
 img_transform = transforms.Compose([transforms.ToTensor()])
 img_tensor = img_transform(img)
 img_tensor.unsqueeze_(dim=0)    # C*H*W to B*C*H*W

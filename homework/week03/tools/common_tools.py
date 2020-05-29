@@ -15,8 +15,8 @@ import random
 def transform_invert(img_, transform_train):
     """
     将data 进行反transfrom操作
-    :param img_: tensor
-    :param transform_train: torchvision.transforms
+    :param img_: 02_tensor
+    :param transform_train: torchvision.05_transforms
     :return: PIL image
     """
     if 'Normalize' in str(transform_train):
