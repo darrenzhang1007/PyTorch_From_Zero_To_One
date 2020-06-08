@@ -45,7 +45,7 @@ net = LeNet2(classes=2019)
 
 # "训练"
 print("训练前: ", net.features[0].weight[0, ...])
-net.initialize()
+net.initialize()  # 模拟参数改变
 print("训练后: ", net.features[0].weight[0, ...])
 
 path_model = "./model.pkl"

@@ -1,39 +1,86 @@
-# -*- coding: utf-8 -*-
+# -*- coding:utf-8 -*-
 """
-# @Time    : 2020/5/13 9:20
-# @Author  : DarrenZhang
-# @FileName: model_load.py
-# @Software: PyCharm
-# @Blog    ：https://www.yuque.com/darrenzhang
-# @Brief   : 模拟训练意外停止
+@file name  : bn_application.py
+# @author   : TingsongYu https://github.com/TingsongYu
+@date       : 2019-11-01
+@brief      : nn.BatchNorm使用
 """
 import os
-import random
 import numpy as np
 import torch
 import torch.nn as nn
-from torch.utils.data import DataLoader
-import torchvision.transforms as transforms
+import torch.nn.functional as F
 import torch.optim as optim
-from PIL import Image
+import torchvision.transforms as transforms
+from torch.utils.tensorboard import SummaryWriter
+from torch.utils.data import DataLoader
 from matplotlib import pyplot as plt
-from model.lenet import LeNet
+from model.lenet import LeNet, LeNet_bn
 from tools.my_dataset import RMBDataset
 from tools.common_tools import set_seed
-import torchvision
+
+
+class LeNet_bn(nn.Module):
+    def __init__(self, classes):
+        super(LeNet_bn, self).__init__()
+        self.conv1 = nn.Conv2d(3, 6, 5)
+        self.bn1 = nn.BatchNorm2d(num_features=6)
+
+        self.conv2 = nn.Conv2d(6, 16, 5)
+        self.bn2 = nn.BatchNorm2d(num_features=16)
+
+        self.fc1 = nn.Linear(16 * 5 * 5, 120)
+        self.bn3 = nn.BatchNorm1d(num_features=120)
+
+        self.fc2 = nn.Linear(120, 84)
+        self.fc3 = nn.Linear(84, classes)
+
+    def forward(self, x):
+        out = self.conv1(x)
+        out = self.bn1(out)
+        out = F.relu(out)
+
+        out = F.max_pool2d(out, 2)
+
+        out = self.conv2(out)
+        out = self.bn2(out)
+        out = F.relu(out)
+
+        out = F.max_pool2d(out, 2)
+
+        out = out.view(out.size(0), -1)
+
+        out = self.fc1(out)
+        out = self.bn3(out)
+        out = F.relu(out)
+
+        out = F.relu(self.fc2(out))
+        out = self.fc3(out)
+        return out
+
+    def initialize_weights(self):
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                nn.init.xavier_normal_(m.weight.data)
+                if m.bias is not None:
+                    m.bias.data.zero_()
+            elif isinstance(m, nn.BatchNorm2d):
+                m.weight.data.fill_(1)
+                m.bias.data.zero_()
+            elif isinstance(m, nn.Linear):
+                nn.init.normal_(m.weight.data, 0, 1)
+                m.bias.data.zero_()
 
 
 set_seed(1)  # 设置随机种子
 rmb_label = {"1": 0, "100": 1}
 
 # 参数设置
-checkpoint_interval = 5
 MAX_EPOCH = 10
 BATCH_SIZE = 16
 LR = 0.01
 log_interval = 10
 val_interval = 1
-
 
 # ============================ step 1/5 数据 ============================
 
@@ -68,35 +115,26 @@ valid_loader = DataLoader(dataset=valid_data, batch_size=BATCH_SIZE)
 
 # ============================ step 2/5 模型 ============================
 
-net = LeNet(classes=2)
-net.initialize_weights()
+net = LeNet_bn(classes=2)
+# net = LeNet(classes=2)
+# net.initialize_weights()
 
 # ============================ step 3/5 损失函数 ============================
 criterion = nn.CrossEntropyLoss()                                                   # 选择损失函数
 
 # ============================ step 4/5 优化器 ============================
 optimizer = optim.SGD(net.parameters(), lr=LR, momentum=0.9)                        # 选择优化器
-scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=6, gamma=0.1)     # 设置学习率下降策略
-
-
-# ============================ step 5+/5 断点恢复 ============================
-
-path_checkpoint = "./checkpoint_4_epoch.pkl"
-checkpoint = torch.load(path_checkpoint)
-
-net.load_state_dict(checkpoint['model_state_dict'])
-
-optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
-
-start_epoch = checkpoint['epoch']
-
-scheduler.last_epoch = start_epoch
+scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.1)     # 设置学习率下降策略
 
 # ============================ step 5/5 训练 ============================
 train_curve = list()
 valid_curve = list()
 
-for epoch in range(start_epoch + 1, MAX_EPOCH):
+iter_count = 0
+# 构建 SummaryWriter
+writer = SummaryWriter(comment='test_your_comment', filename_suffix="_test_your_filename_suffix")
+
+for epoch in range(MAX_EPOCH):
 
     loss_mean = 0.
     correct = 0.
@@ -104,6 +142,8 @@ for epoch in range(start_epoch + 1, MAX_EPOCH):
 
     net.train()
     for i, data in enumerate(train_loader):
+
+        iter_count += 1
 
         # forward
         inputs, labels = data
@@ -131,20 +171,11 @@ for epoch in range(start_epoch + 1, MAX_EPOCH):
                 epoch, MAX_EPOCH, i+1, len(train_loader), loss_mean, correct / total))
             loss_mean = 0.
 
+        # 记录数据，保存于event file
+        writer.add_scalars("Loss", {"Train": loss.item()}, iter_count)
+        writer.add_scalars("Accuracy", {"Train": correct / total}, iter_count)
+
     scheduler.step()  # 更新学习率
-
-    if (epoch+1) % checkpoint_interval == 0:
-
-        checkpoint = {"model_state_dict": net.state_dict(),
-                      "optimizer_state_dic": optimizer.state_dict(),
-                      "loss": loss,
-                      "epoch": epoch}
-        path_checkpoint = "./checkpint_{}_epoch.pkl".format(epoch)
-        torch.save(checkpoint, path_checkpoint)
-
-    # if epoch > 5:
-    #     print("训练意外中断...")
-    #     break
 
     # validate the model
     if (epoch+1) % val_interval == 0:
@@ -167,8 +198,11 @@ for epoch in range(start_epoch + 1, MAX_EPOCH):
 
             valid_curve.append(loss.item())
             print("Valid:\t Epoch[{:0>3}/{:0>3}] Iteration[{:0>3}/{:0>3}] Loss: {:.4f} Acc:{:.2%}".format(
-                epoch, MAX_EPOCH, j+1, len(valid_loader), loss_val/len(valid_loader), correct / total))
+                epoch, MAX_EPOCH, j+1, len(valid_loader), loss_val, correct / total))
 
+            # 记录数据，保存于event file
+            writer.add_scalars("Loss", {"Valid": loss.item()}, iter_count)
+            writer.add_scalars("Accuracy", {"Valid": correct / total}, iter_count)
 
 train_x = range(len(train_curve))
 train_y = train_curve
@@ -184,6 +218,47 @@ plt.legend(loc='upper right')
 plt.ylabel('loss value')
 plt.xlabel('Iteration')
 plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

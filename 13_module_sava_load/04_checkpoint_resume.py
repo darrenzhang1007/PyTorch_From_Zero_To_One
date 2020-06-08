@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-# @Time    : 2020/5/13 9:15
+# @Time    : 2020/5/13 9:20
 # @Author  : DarrenZhang
-# @FileName: model_load.py
+# @FileName: 02_model_load.py
 # @Software: PyCharm
 # @Blog    ：https://www.yuque.com/darrenzhang
 # @Brief   : 模拟训练意外停止
@@ -21,6 +21,7 @@ from model.lenet import LeNet
 from tools.my_dataset import RMBDataset
 from tools.common_tools import set_seed
 import torchvision
+
 
 set_seed(1)  # 设置随机种子
 rmb_label = {"1": 0, "100": 1}
@@ -77,12 +78,25 @@ criterion = nn.CrossEntropyLoss()                                               
 optimizer = optim.SGD(net.parameters(), lr=LR, momentum=0.9)                        # 选择优化器
 scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=6, gamma=0.1)     # 设置学习率下降策略
 
+
+# ============================ step 5+/5 断点恢复 ============================
+
+path_checkpoint = "./checkpoint_4_epoch.pkl"
+checkpoint = torch.load(path_checkpoint)
+
+net.load_state_dict(checkpoint['model_state_dict'])
+
+optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+
+start_epoch = checkpoint['epoch']
+
+scheduler.last_epoch = start_epoch
+
 # ============================ step 5/5 训练 ============================
 train_curve = list()
 valid_curve = list()
 
-start_epoch = -1
-for epoch in range(start_epoch+1, MAX_EPOCH):
+for epoch in range(start_epoch + 1, MAX_EPOCH):
 
     loss_mean = 0.
     correct = 0.
@@ -122,14 +136,15 @@ for epoch in range(start_epoch+1, MAX_EPOCH):
     if (epoch+1) % checkpoint_interval == 0:
 
         checkpoint = {"model_state_dict": net.state_dict(),
-                      "optimizer_state_dict": optimizer.state_dict(),
+                      "optimizer_state_dic": optimizer.state_dict(),
+                      "loss": loss,
                       "epoch": epoch}
-        path_checkpoint = "./checkpoint_{}_epoch.pkl".format(epoch)
+        path_checkpoint = "./checkpint_{}_epoch.pkl".format(epoch)
         torch.save(checkpoint, path_checkpoint)
 
-    if epoch > 5:
-        print("训练意外中断...")
-        break
+    # if epoch > 5:
+    #     print("训练意外中断...")
+    #     break
 
     # validate the model
     if (epoch+1) % val_interval == 0:
