@@ -2,10 +2,10 @@
 """
 # @Time    : 2020/5/13 9:20
 # @Author  : DarrenZhang
-# @FileName: 02_model_load.py
+# @FileName: 04_checkpoint_resume.py
 # @Software: PyCharm
 # @Blog    ：https://www.yuque.com/darrenzhang
-# @Brief   : 模拟训练意外停止
+# @Brief   : checkpoint 续训练
 """
 import os
 import random
@@ -36,10 +36,9 @@ val_interval = 1
 
 
 # ============================ step 1/5 数据 ============================
-
-split_dir = os.path.join("..", "..", "data", "rmb_split")
-train_dir = os.path.join(split_dir, "train")
-valid_dir = os.path.join(split_dir, "valid")
+train_dir = "H:/PyTorch_From_Zero_To_One/data/rmb_split/train"
+valid_dir = "H:/PyTorch_From_Zero_To_One/data/rmb_split/valid"
+print(train_dir)
 
 norm_mean = [0.485, 0.456, 0.406]
 norm_std = [0.229, 0.224, 0.225]
@@ -84,13 +83,13 @@ scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=6, gamma=0.1)  
 path_checkpoint = "./checkpoint_4_epoch.pkl"
 checkpoint = torch.load(path_checkpoint)
 
-net.load_state_dict(checkpoint['model_state_dict'])
+net.load_state_dict(checkpoint['model_state_dict'])  # 模型参数更新
 
-optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+optimizer.load_state_dict(checkpoint['optimizer_state_dict'])  # 模型优化器更新
 
-start_epoch = checkpoint['epoch']
+start_epoch = checkpoint['epoch']  # 模型迭代次数要更新
 
-scheduler.last_epoch = start_epoch
+scheduler.last_epoch = start_epoch  # last_epoch：上一个epoch。学习率的epoch也需要更改
 
 # ============================ step 5/5 训练 ============================
 train_curve = list()

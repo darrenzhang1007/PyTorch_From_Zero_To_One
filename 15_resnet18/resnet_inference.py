@@ -2,7 +2,7 @@
 """
 # @Time    : 2020年5月13日15:41:06
 # @Author  : DarrenZhang
-# @FileName: model_load.py
+# @FileName: 02_model_load.py
 # @Software: PyCharm
 # @Blog    ：https://www.yuque.com/darrenzhang
 # @Brief   : resnet inference demo

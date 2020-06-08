@@ -13,7 +13,7 @@ from tools.common_tools import set_seed
 
 set_seed(1)  # 设置随机种子
 
-# ======================================== nn.layer norm
+# ======================================== nn.LayerNorm ======================================== #
 # flag = 1
 flag = 0
 if flag:
@@ -39,7 +39,7 @@ if flag:
     print(feature_maps_bs[0, ...])
     print(output[0, ...])
 
-# ======================================== nn.instance norm 2d
+# ======================================== nn.InstanceNorm2d ======================================== #
 # flag = 1
 flag = 0
 if flag:
@@ -69,7 +69,7 @@ if flag:
         # print("iter:{}, bias.shape: {}".format(i, bn.bias.shape))
 
 
-# ======================================== nn.grop norm
+# ======================================== nn.GroupNorm ======================================== #
 flag = 1
 # flag = 0
 if flag:
@@ -90,9 +90,3 @@ if flag:
     print("Group Normalization")
     print(gn.weight.shape)
     print(outputs[0])
-
-
-
-
-
-

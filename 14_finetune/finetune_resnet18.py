@@ -2,7 +2,7 @@
 """
 # @Time    : 2020/5/13 9:13
 # @Author  : DarrenZhang
-# @FileName: 02_model_load.py
+# @FileName: finetune_resnet18.py
 # @Software: PyCharm
 # @Blog    ：https://www.yuque.com/darrenzhang
 # @Brief   : 模型finetune方法
@@ -37,8 +37,8 @@ lr_decay_step = 7
 
 
 # ============================ step 1/5 数据 ============================
-train_dir = ("H:/PyTorch_From_Zero_To_One/13_finetune/hymenoptera_data/train")
-valid_dir = ("H:/PyTorch_From_Zero_To_One/13_finetune/hymenoptera_data/val")
+train_dir = ("H:/PyTorch_From_Zero_To_One/data/hymenoptera_data/train")
+valid_dir = ("H:/PyTorch_From_Zero_To_One/14_finetune/hymenoptera_data/val")
 
 norm_mean = [0.485, 0.456, 0.406]
 norm_std = [0.229, 0.224, 0.225]
@@ -74,7 +74,7 @@ resnet18_ft = models.resnet18()
 # flag = 0
 flag = 1
 if flag:
-    path_pretrained_model = ("H:/PyTorch_From_Zero_To_One/13_finetune/15_resnet18-5c106cde.pth")
+    path_pretrained_model = ("H:/PyTorch_From_Zero_To_One/14_finetune/15_resnet18-5c106cde.pth")
     state_dict_load = torch.load(path_pretrained_model)
     resnet18_ft.load_state_dict(state_dict_load)
 

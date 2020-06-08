@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 """
-@file name  : bn_application.py
+@file name  : 05_bn_application.py
 # @author   : TingsongYu https://github.com/TingsongYu
 @date       : 2019-11-01
 @brief      : nn.BatchNorm使用
@@ -15,7 +15,7 @@ import torchvision.transforms as transforms
 from torch.utils.tensorboard import SummaryWriter
 from torch.utils.data import DataLoader
 from matplotlib import pyplot as plt
-from model.lenet import LeNet, LeNet_bn
+from model.lenet import LeNet
 from tools.my_dataset import RMBDataset
 from tools.common_tools import set_seed
 
@@ -83,10 +83,9 @@ log_interval = 10
 val_interval = 1
 
 # ============================ step 1/5 数据 ============================
-
-split_dir = os.path.join("..", "..", "data", "rmb_split")
-train_dir = os.path.join(split_dir, "train")
-valid_dir = os.path.join(split_dir, "valid")
+train_dir = "H:/PyTorch_From_Zero_To_One/data/rmb_split/train"
+valid_dir = "H:/PyTorch_From_Zero_To_One/data/rmb_split/valid"
+print(train_dir)
 
 norm_mean = [0.485, 0.456, 0.406]
 norm_std = [0.229, 0.224, 0.225]

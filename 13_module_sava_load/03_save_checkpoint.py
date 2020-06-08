@@ -2,7 +2,7 @@
 """
 # @Time    : 2020/5/13 9:15
 # @Author  : DarrenZhang
-# @FileName: 02_model_load.py
+# @FileName: 03_save_checkpoint.py
 # @Software: PyCharm
 # @Blog    ：https://www.yuque.com/darrenzhang
 # @Brief   : 模拟训练意外停止
@@ -35,10 +35,10 @@ val_interval = 1
 
 
 # ============================ step 1/5 数据 ============================
+train_dir = "H:/PyTorch_From_Zero_To_One/data/rmb_split/train"
+valid_dir = "H:/PyTorch_From_Zero_To_One/data/rmb_split/valid"
+print(train_dir)
 
-split_dir = os.path.join("..", "..", "data", "rmb_split")
-train_dir = os.path.join(split_dir, "train")
-valid_dir = os.path.join(split_dir, "valid")
 
 norm_mean = [0.485, 0.456, 0.406]
 norm_std = [0.229, 0.224, 0.225]

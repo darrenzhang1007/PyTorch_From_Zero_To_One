@@ -2,15 +2,13 @@
 """
 # @Time    : 2020/5/13 9:10
 # @Author  : DarrenZhang
-# @FileName: model_load.py
+# @FileName: 02_model_load.py
 # @Software: PyCharm
 # @Blog    ：https://www.yuque.com/darrenzhang
 # @Brief   : 模型的加载
 """
 import torch
-import numpy as np
 import torch.nn as nn
-from tools.common_tools import set_seed
 
 
 class LeNet2(nn.Module):
@@ -44,8 +42,8 @@ class LeNet2(nn.Module):
 
 
 # ================================== load net ===========================
-# flag = 1
-flag = 0
+flag = 1
+# flag = 0
 if flag:
 
     path_model = "./model.pkl"
