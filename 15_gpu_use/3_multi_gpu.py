@@ -70,7 +70,7 @@ if __name__ == "__main__":
 
     # model
     net = FooNet(neural_num=3, layers=3)
-    net = nn.DataParallel(net)
+    net = nn.DataParallel(net)  # 多GPU分发
     net.to(device)
 
     # training
